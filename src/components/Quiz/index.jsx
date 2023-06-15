@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { QuestionAnswer } from '../QuestionAnswer';
 
+import { Button } from '../Button';
+
 import S from './styles.module.css';
 
 const QUESTIONS = [
@@ -31,7 +33,7 @@ const QUESTIONS = [
 ]
 
 export function Quiz() {
-    const currentQuestion = QUESTIONS[0];
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0)
     const [isCurrentQuestionAnswered, setIsCurrentQuestionAnswered] = useState(false)
 
@@ -52,6 +54,16 @@ export function Quiz() {
 
         setIsCurrentQuestionAnswered(true)
     }
+
+    const handleNextQuestion = () => {
+        if (currentQuestionIndex + 1 < QUESTIONS.length) {
+            setCurrentQuestionIndex(index => index + 1)
+        }
+
+        setIsCurrentQuestionAnswered(false)
+    }
+
+    const currentQuestion = QUESTIONS[currentQuestionIndex];
 
     return (
         <div className={S.container}>
@@ -75,6 +87,11 @@ export function Quiz() {
                      </li>
                    ))}                  
                 </ul>
+                
+                {isCurrentQuestionAnswered && (
+                    <Button onClick={handleNextQuestion}>Próxima Pergunta</Button>
+                )}
+                
             </div>
             </div>
         </div>
